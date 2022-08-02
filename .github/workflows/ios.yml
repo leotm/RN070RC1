@@ -31,10 +31,10 @@ jobs:
       run: cd ios && PRODUCTION=1 pod install && cd ..
 
     - name: Bundle app for release
-      run: npx react-native bundle --entry-file='index.ts' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'
+      run: npx react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'
       
     - name: Bundle app for release
-      run: npx react-native bundle --entry-file='index.ts' --bundle-output='./ios/MyApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'
+      run: npx react-native bundle --entry-file='index.js' --bundle-output='./ios/MyApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'
 
     - name: Build app for release
       run: npx react-native run-ios --configuration Release
