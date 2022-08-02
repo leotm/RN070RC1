@@ -1,0 +1,40 @@
+# See: https://github.com/leotm/react-native-template-new-architecture/pull/690
+# Follow-up: https://github.com/facebook/react-native/issues/34274
+
+name: iOS CI with Xcode
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-ios:
+
+    runs-on: macos-12
+    
+    # ruby: 2.7.6, 3.0.4, 3.1.2 (../.ruby-version: 2.7.5)
+    # CocoaPods: 1.11.3
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Install all project dependencies
+      run: yarn
+
+    - name: npx react-native info
+      run: npx react-native info
+
+    - name: Install pods (prod)
+      run: cd ios && PRODUCTION=1 pod install && cd ..
+
+    - name: Bundle app for release
+      run: npx react-native bundle --entry-file='index.ts' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'
+      
+    - name: Bundle app for release
+      run: npx react-native bundle --entry-file='index.ts' --bundle-output='./ios/MyApp/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'
+
+    - name: Build app for release
+      run: npx react-native run-ios --configuration Release
